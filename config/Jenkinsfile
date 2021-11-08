@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+               checkout scm
+            }
+        }
+        stage('Descargar Dependencias') {
+            steps {
+                echo '*****************************'
+                echo '** Instalando Dependencias **'
+                echo '*****************************'
+                bat 'npm install'
+            }
+        }
+        stage('Ejecutando escenarios de prueba') {
+            steps {
+                echo '****************************'
+                echo '** Ejecucion Suites/Specs **'
+                echo '****************************'
+                bat 'npm run test'
+            }
+        }
+        stage('Generar Reporte de pruebas') {
+            steps {
+                echo '****************************'
+                echo '** Allure Report html **'
+                echo '****************************'
+                bat 'npm run test:report'
+            }
+        }
+    }
+}
